@@ -6,4 +6,5 @@
 
     <string name="setf_network_error">Network is not available, please connect interent.</string>
     <string name="get_collage">Get photo collage</string>
+    <string name="get_user">Get user</string>
 </resources>

@@ -20,7 +20,8 @@ public class NetworkConstants {
     public static final String URL_AUTH = "https://api.instagram.com/oauth/authorize/";
     public static final String URL_TOKEN = "https://api.instagram.com/oauth/access_token";
     public static final String URL_API = "https://api.instagram.com/v1";
-    public static final String URL_SEARCH = "https://api.instagram.com/v1/users/search";
+    public static final String URL_SEARCH = URL_API + "/users/search";
+    public static final String URL_PHOTOS = "https://api.instagram.com/v1/users/{user-id}/media/recent";
 
     public final static String client_id = "client_id";
     public final static String client_secret = "client_secret";

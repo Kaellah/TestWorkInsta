@@ -24,6 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/univ_padding"
-            android:text="@string/get_collage"/>
+            android:text="@string/get_user"/>
     </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
