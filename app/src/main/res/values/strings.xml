@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">TestWork</string>
 
-    <string name="setf_network_error">Network is not available, please connect interent.</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
+    <string name="setf_network_error">Network is not available, please connect interent.</string>
+    <string name="get_collage">Get photo collage</string>
 </resources>

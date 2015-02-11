@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
  */
 public class AppSettings {
 
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     // SINGLETON
     private static AppSettings sInstance;
@@ -18,6 +19,7 @@ public class AppSettings {
 
     // VALUE`s
     private Context mContext;
+    private String mAccessToken;
 
     private AppSettings(Context context) {
         mSettings = PreferenceManager.getDefaultSharedPreferences(context);
@@ -37,6 +39,19 @@ public class AppSettings {
     }
 
     protected void loadSettings() {
-
+        if (mSettings.contains(ACCESS_TOKEN)) {
+            mAccessToken = mSettings.getString(ACCESS_TOKEN, null);
+        }
     }
+
+    public String getAccessToken() {
+        return mAccessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        mAccessToken = accessToken;
+        mSettings.edit().putString(ACCESS_TOKEN, mAccessToken);
+    }
+
+
 }

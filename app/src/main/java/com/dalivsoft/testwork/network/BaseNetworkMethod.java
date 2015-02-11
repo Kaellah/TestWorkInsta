@@ -3,9 +3,9 @@ package com.dalivsoft.testwork.network;
 import android.content.Context;
 
 import com.dalivsoft.testwork.application.AppSettings;
-import com.dalivsoft.testwork.system.Constants;
-import com.dalivsoft.testwork.system.SharedStrings;
-import com.dalivsoft.testwork.system.Utils;
+import com.dalivsoft.testwork.domain.AccessToken;
+import com.dalivsoft.testwork.utitly.SharedStrings;
+import com.dalivsoft.testwork.utitly.Utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.octo.android.robospice.request.SpiceRequest;
@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
@@ -27,13 +28,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseNetworkMethod<T> extends SpiceRequest<T> implements SharedStrings{
 
     private final JsonParser mJsonParser;
     protected final Context mContext;
-    protected final AppSettings mAppSettings;
+    protected final AppSettings mSettings;
 
     protected String mUrl;
 //    private LogSender mLogSender;
@@ -51,7 +53,7 @@ public abstract class BaseNetworkMethod<T> extends SpiceRequest<T> implements Sh
     public BaseNetworkMethod(Context context, Class clazz, String url) {
         super(clazz);
         mContext = context;
-        mAppSettings = AppSettings.getInstance(context);
+        mSettings = AppSettings.getInstance(context);
         mJsonParser = new JsonParser();
         mUrl = url;
 //        mLogSender = LogSender.getInstance();
@@ -96,11 +98,11 @@ public abstract class BaseNetworkMethod<T> extends SpiceRequest<T> implements Sh
                     httpEntity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     httpPost.setEntity(httpEntity);
 //                    AccessToken token = getAccessToken(client);
-//                    httpPost.addHeader(Constants.TOKEN_HEADER_BODY_NAME, token.getTypeToken() + " " + token.getToken());
+//                    httpPost.addHeader(NetworkConstants.HTTP_Header, "Value: " + " 127.0.0.1|" + NetworkConstants.CLIENT_SECRET);
 //                    debugNetwork(params, token);
-                    if (Constants.DEBUG) {
-                        streamToLogCat(httpEntity.getContent(), true);
-                    }
+//                    if (Constants.DEBUG) {
+//                        streamToLogCat(httpEntity.getContent(), true);
+//                    }
                     response = client.execute(httpPost);
                     break;
             }
@@ -134,22 +136,25 @@ public abstract class BaseNetworkMethod<T> extends SpiceRequest<T> implements Sh
 //        Log.d("netlog", msg);
 //    }
 
-//    private AccessToken getAccessToken(DefaultHttpClient client) throws IOException {
-//        AccessToken accessToken = mAppSettings.getAccessToken();
+    private AccessToken getAccessToken(DefaultHttpClient client) throws IOException {
+//        AccessToken accessToken = mSettings.getAccessToken();
 //        if (accessToken == null || accessToken.isExpired()) {
-//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-//            nameValuePairs.add(new BasicNameValuePair(Constants.TOKEN_GRANT_TYPE_NAME, Constants.TOKEN_GRANT_TYPE_VALUE));
-//            nameValuePairs.add(new BasicNameValuePair(Constants.TOKEN_SCOPE_NAME, Constants.TOKEN_SCOPE_VALUE));
-//            HttpPost httpPost = new HttpPost(Constants.URL_GET_ACCESS_TOKEN);
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair(NetworkConstants.client_id, NetworkConstants.CLIENT_ID));
+//            nameValuePairs.add(new BasicNameValuePair(NetworkConstants.client_secret, NetworkConstants.client_secret));
+            nameValuePairs.add(new BasicNameValuePair(NetworkConstants.redirect_uri, NetworkConstants.REDIRECT_URI));
+            nameValuePairs.add(new BasicNameValuePair(NetworkConstants.response_type, NetworkConstants.code));
+//            nameValuePairs.add(new BasicNameValuePair(NetworkConstants.grant_type, NetworkConstants.authorization_code));
+            HttpPost httpPost = new HttpPost(NetworkConstants.URL_AUTH);
 //            httpPost.addHeader(Constants.TOKEN_HEADER_BODY_NAME, Constants.TOKEN_HEADER_BODY_VALUE);
-//            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//            HttpResponse response = client.execute(httpPost);
-//            JsonElement json = mJsonParser.parse(new InputStreamReader(response.getEntity().getContent()));
-//            accessToken = new AccessToken(json);
-//            mAppSettings.setAccessToken(accessToken);
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = client.execute(httpPost);
+            JsonElement json = mJsonParser.parse(new InputStreamReader(response.getEntity().getContent()));
+            AccessToken accessToken = new AccessToken(json);
+//            mSettings.setAccessToken(accessToken);
 //        }
-//        return accessToken;
-//    }
+        return accessToken;
+    }
 
     private void streamToLogCat(InputStream stream, boolean close) throws IOException {
         streamToLogCat(new InputStreamReader(stream), close);

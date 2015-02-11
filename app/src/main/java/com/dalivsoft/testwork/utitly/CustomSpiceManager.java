@@ -1,10 +1,10 @@
-package com.dalivsoft.testwork.network;
+package com.dalivsoft.testwork.utitly;
 
 import android.content.Context;
 
 import com.dalivsoft.testwork.R;
 import com.dalivsoft.testwork.activity.BaseActivity;
-import com.dalivsoft.testwork.system.Utils;
+import com.dalivsoft.testwork.utitly.Utils;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.SpiceService;
 import com.octo.android.robospice.request.CachedSpiceRequest;

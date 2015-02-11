@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.dalivsoft.testwork.R;
 import com.dalivsoft.testwork.application.App;
 import com.dalivsoft.testwork.application.AppSettings;
-import com.dalivsoft.testwork.network.CustomSpiceManager;
+import com.dalivsoft.testwork.utitly.CustomSpiceManager;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.UncachedSpiceService;
 
@@ -20,15 +20,12 @@ import com.octo.android.robospice.UncachedSpiceService;
 public class BaseActivity extends ActionBarActivity {
 
     // VALUE`s
-    protected App mApp;
     protected AppSettings mSettings;
-//    private static Toast sToast;
     private SpiceManager mSpiceManager = new CustomSpiceManager(UncachedSpiceService.class, this);
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        mApp = (App) getApplication();
-        mSettings = mApp.getSettings();
+        mSettings = getApp().getSettings();
         super.onCreate(savedInstanceState, persistentState);
     }
 
@@ -88,6 +85,10 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     private void showToast(String msg) {
-        Toast.makeText(mApp.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApp().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public App getApp() {
+        return (App) getApplication();
     }
 }

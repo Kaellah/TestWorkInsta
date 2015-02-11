@@ -1,4 +1,4 @@
-package com.dalivsoft.testwork.system;
+package com.dalivsoft.testwork.utitly;
 
 /**
  * @author Cheakshov R.(email:roman_woland@mail.ru)

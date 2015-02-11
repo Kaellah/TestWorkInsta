@@ -23,8 +23,10 @@ public class BaseFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApp = (App) getActivity().getApplication();
+
         mActivity = (BaseActivity) getActivity();
+        mApp = (App) mActivity.getApplication();
+
         mSettings = mActivity.getSettings();
         mSpiceManager = mActivity.getRoboSpiceManager();
     }
@@ -49,5 +51,12 @@ public class BaseFragment extends Fragment  {
         startFragment(R.id.main_frame, fragment, backStack, ((Object) fragment).getClass().getSimpleName());
     }
 
+    protected void showMessage(String msg) {
+        mActivity.showMessage(msg);
+    }
+
+    protected void showMessage(int idStr) {
+        showMessage(getString(idStr));
+    }
 
 }
